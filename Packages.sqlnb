@@ -1,0 +1,470 @@
+cells:
+  - kind: 2
+    value: "create user hemant identified by test_password\r
+
+      \   default tablespace users\r
+
+      \   temporary tablespace temp\r
+
+      \   quota unlimited on users;\r
+
+      \r
+
+      grant create session to hemant;\r
+
+      grant create table,\r
+
+      \   create view,\r
+
+      \   create sequence,\r
+
+      \   create procedure\r
+
+      to hemant;"
+    languageId: oracle-sql
+  - kind: 2
+    value: "create table stu (\r
+
+      \   stu_id     number primary key,\r
+
+      \   stu_name   varchar2(50),\r
+
+      \   stu_dept   varchar2(30),\r
+
+      \   marks      number,\r
+
+      \   created_on date\r
+
+      );"
+    languageId: oracle-sql
+  - kind: 2
+    value: "create or replace trigger trg_stu_bi before\r
+
+      \   insert on stu\r
+
+      \   for each row\r
+
+      begin\r
+
+      \   :new.created_on := sysdate;\r
+
+      end;\r
+
+      /"
+    languageId: oracle-sql
+  - kind: 2
+    value: "create or replace package stu_pkg as\r
+
+      \   procedure add_student (\r
+
+      \      p_id    number,\r
+
+      \      p_name  varchar2,\r
+
+      \      p_dept  varchar2,\r
+
+      \      p_marks number\r
+
+      \   );\r
+
+      \r
+
+      \   procedure show_students;\r
+
+      end stu_pkg;\r
+
+      /"
+    languageId: oracle-sql
+  - kind: 2
+    value: "create or replace package body stu_pkg as\r
+
+      \r
+
+      \   procedure add_student (\r
+
+      \      p_id    number,\r
+
+      \      p_name  varchar2,\r
+
+      \      p_dept  varchar2,\r
+
+      \      p_marks number\r
+
+      \   ) is\r
+
+      \   begin\r
+
+      \      insert into stu (\r
+
+      \         stu_id,\r
+
+      \         stu_name,\r
+
+      \         stu_dept,\r
+
+      \         marks\r
+
+      \      ) values ( p_id,\r
+
+      \                 p_name,\r
+
+      \                 p_dept,\r
+
+      \                 p_marks );\r
+
+      \   end add_student;\r
+
+      \r
+
+      \r
+
+      \   procedure show_students is\r
+
+      \   begin\r
+
+      \      for r in (\r
+
+      \         select *\r
+
+      \           from stu\r
+
+      \          order by stu_id\r
+
+      \      ) loop\r
+
+      \         dbms_output.put_line(r.stu_id\r
+
+      \                              || ' | '\r
+
+      \                              || r.stu_name\r
+
+      \                              || ' | '\r
+
+      \                              || r.stu_dept\r
+
+      \                              || ' | '\r
+
+      \                              || r.marks\r
+
+      \                              || ' | ' || to_char(\r
+
+      \            r.created_on,\r
+
+      \            'DD-MON-YYYY'\r
+
+      \         ));\r
+
+      \      end loop;\r
+
+      \   end show_students;\r
+
+      \r
+
+      end stu_pkg;\r
+
+      /"
+    languageId: oracle-sql
+  - kind: 2
+    value: "begin\r
+
+      \   stu_pkg.add_student(\r
+
+      \      1,\r
+
+      \      'Aman',\r
+
+      \      'CSE',\r
+
+      \      78\r
+
+      \   );\r
+
+      \   stu_pkg.add_student(\r
+
+      \      2,\r
+
+      \      'Riya',\r
+
+      \      'ECE',\r
+
+      \      82\r
+
+      \   );\r
+
+      \   stu_pkg.add_student(\r
+
+      \      3,\r
+
+      \      'Karan',\r
+
+      \      'ME',\r
+
+      \      69\r
+
+      \   );\r
+
+      \   stu_pkg.add_student(\r
+
+      \      4,\r
+
+      \      'Sneha',\r
+
+      \      'CSE',\r
+
+      \      91\r
+
+      \   );\r
+
+      \   stu_pkg.add_student(\r
+
+      \      5,\r
+
+      \      'Vikas',\r
+
+      \      'IT',\r
+
+      \      74\r
+
+      \   );\r
+
+      \   stu_pkg.add_student(\r
+
+      \      6,\r
+
+      \      'Neha',\r
+
+      \      'EEE',\r
+
+      \      88\r
+
+      \   );\r
+
+      \   stu_pkg.add_student(\r
+
+      \      7,\r
+
+      \      'Rahul',\r
+
+      \      'ME',\r
+
+      \      65\r
+
+      \   );\r
+
+      \   stu_pkg.add_student(\r
+
+      \      8,\r
+
+      \      'Pooja',\r
+
+      \      'CSE',\r
+
+      \      84\r
+
+      \   );\r
+
+      \   stu_pkg.add_student(\r
+
+      \      9,\r
+
+      \      'Arjun',\r
+
+      \      'IT',\r
+
+      \      77\r
+
+      \   );\r
+
+      \   stu_pkg.add_student(\r
+
+      \      10,\r
+
+      \      'Kriti',\r
+
+      \      'ECE',\r
+
+      \      90\r
+
+      \   );\r
+
+      \   stu_pkg.add_student(\r
+
+      \      11,\r
+
+      \      'Manish',\r
+
+      \      'EEE',\r
+
+      \      72\r
+
+      \   );\r
+
+      \   stu_pkg.add_student(\r
+
+      \      12,\r
+
+      \      'Anita',\r
+
+      \      'CSE',\r
+
+      \      86\r
+
+      \   );\r
+
+      \   stu_pkg.add_student(\r
+
+      \      13,\r
+
+      \      'Rohit',\r
+
+      \      'ME',\r
+
+      \      68\r
+
+      \   );\r
+
+      \   stu_pkg.add_student(\r
+
+      \      14,\r
+
+      \      'Simran',\r
+
+      \      'IT',\r
+
+      \      92\r
+
+      \   );\r
+
+      \   stu_pkg.add_student(\r
+
+      \      15,\r
+
+      \      'Nikhil',\r
+
+      \      'ECE',\r
+
+      \      80\r
+
+      \   );\r
+
+      \   commit;\r
+
+      end;\r
+
+      /"
+    languageId: oracle-sql
+  - kind: 2
+    value: "   SET SERVEROUTPUT ON"
+    languageId: oracle-sql
+  - kind: 2
+    value: "begin\r
+
+      \   stu_pkg.show_students;\r
+
+      end;\r
+
+      /"
+    languageId: oracle-sql
+  - kind: 2
+    value: "BEGIN\r
+
+      \    DBMS_OUTPUT.PUT_LINE('Hello from PL/SQL');\r
+
+      END;\r
+
+      /\r\n"
+    languageId: oracle-sql
+  - kind: 2
+    value: "BEGIN\r
+
+      \    stu_pkg.show_students;\r
+
+      END;\r
+
+      /\r\n"
+    languageId: oracle-sql
+  - kind: 2
+    value: "CREATE TABLE documents (\r
+
+      doc_id NUMBER PRIMARY KEY,\r
+
+      doc_name VARCHAR2(100),\r
+
+      doc_content CLOB,\r
+
+      doc_file BLOB,\r
+
+      created_date DATE DEFAULT SYSDATE\r
+
+      );"
+    languageId: oracle-sql
+  - kind: 2
+    value: "DECLARE\r
+
+      v_doc_content CLOB := 'This is a large text document...';\r
+
+      BEGIN\r
+
+      INSERT INTO documents (doc_id, doc_name, doc_content)\r
+
+      VALUES (1, 'My Document', v_doc_content);\r
+
+      COMMIT;\r
+
+      END;\r
+
+      /\r\n"
+    languageId: oracle-sql
+  - kind: 2
+    value: "CREATE OR REPLACE DIRECTORY my_dir AS 'E:\\';\r\n"
+    languageId: oracle-sql
+  - kind: 2
+    value: "GRANT READ ON DIRECTORY my_dir TO hemant;\r\n"
+    languageId: oracle-sql
+  - kind: 2
+    value: "DECLARE\r
+
+      \    v_blob   BLOB;\r
+
+      \    v_bfile  BFILE;\r
+
+      BEGIN\r
+
+      \    INSERT INTO documents (doc_id, doc_name, doc_file)\r
+
+      \    VALUES (2, 'my self.jpg', EMPTY_BLOB())\r
+
+      \    RETURNING doc_file INTO v_blob;\r
+
+      \r
+
+      \    v_bfile := BFILENAME('MY_DIR', 'my self.jpg');\r
+
+      \r
+
+      \    DBMS_LOB.FILEOPEN(v_bfile, DBMS_LOB.FILE_READONLY);\r
+
+      \r
+
+      \    DBMS_LOB.LOADFROMFILE(\r
+
+      \        dest_lob => v_blob,\r
+
+      \        src_lob  => v_bfile,\r
+
+      \        amount   => DBMS_LOB.GETLENGTH(v_bfile)\r
+
+      \    );\r
+
+      \r
+
+      \    DBMS_LOB.FILECLOSE(v_bfile);\r
+
+      \r
+
+      \    COMMIT;\r
+
+      END;\r
+
+      /\r\n"
+    languageId: oracle-sql
